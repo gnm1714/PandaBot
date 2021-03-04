@@ -9,6 +9,9 @@ from dotenv import load_dotenv
 class BotData:
     def __init__(self):
         self.welcome_channel = None
+        self.goodbye_channel = None
+        self.welcome_message = " "
+        self.goodbye_message = " "
 
 intents = discord.Intents.default()
 intents.members = True
@@ -112,13 +115,13 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
     print(f"Welcome {member}")
-    await botdata.welcome_channel.send(f"Welcome {member.mention}!")
+    await botdata.welcome_channel.send(botdata.welcome_message)
 
 
 @client.event
 async def on_member_remove(member):
     print(f"See ya {member}")
-    await botdata.welcome_channel.send(f"See ya {member.mention}!")
+    await botdata.welcome_channel.send(botdata.goodbye_message)
 
 
 @client.event
@@ -163,16 +166,19 @@ async def on_message(message):
           await message.channel.send(f"Welcome channel has been set to {welcome_channel}")
         elif len(msg_words) > 2:
           welcome_channel = msg_words[1]
-          welcome_message = str(msg_words[2:])
+          welcome_message = msg_words[2:]
+          welcome = " "
+          botdata.welcome_message = welcome.join(welcome_message)
           for channel in message.guild.channels:
             if welcome_channel == channel.name:
               botdata.welcome_channel = channel
-          await message.channel.send(f"Welcome channel has been set to {welcome_channel} with a message: \"{welcome_message}\"")
+          await message.channel.send(f"Welcome channel has been set to {welcome_channel} with a message: \"{botdata.welcome_message}\"")
         else:
           await message.channel.send("Please include a welcome channel")
     
     # Setting goodbye channel
     if msg.startswith(f"{pfx}goodbye"):
+        goodbye_message = ""
         if len(msg_words) == 2:
           goodbye_channel = msg_words[1]
           for channel in message.guild.channels:
@@ -181,11 +187,13 @@ async def on_message(message):
           await message.channel.send(f"Goodbye channel has been set to {goodbye_channel}")
         elif len(msg_words) > 2:
           goodbye_channel = msg_words[1]
-          goodbye_message = str(msg_words[2:])
+          goodbye_message = msg_words[2:]
+          goodbye = " "
+          botdata.goodbye_message = goodbye.join(goodbye_message)
           for channel in message.guild.channels:
             if goodbye_channel == channel.name:
               botdata.goodbye_channel = channel
-          await message.channel.send(f"Goodbye channel has been set to {goodbye_channel} with a message: \"{goodbye_message}\"")
+          await message.channel.send(f"Goodbye channel has been set to {goodbye_channel} with a message: \"{botdata.goodbye_message}\"")
         else:
           await message.channel.send("Please include a goodbye channel")
 
