@@ -1,10 +1,10 @@
 import discord
 import os
-import requests
-import json
 import random
-from web_server import web_server
+from helpers.web_server import web_server
 from dotenv import load_dotenv
+from helpers.utilities import create_variations, check_inside_words, welcome
+from helpers.api import get_goat, get_panda, get_quote
 
 class BotData:
     def __init__(self):
@@ -13,12 +13,15 @@ class BotData:
         self.welcome_message = " "
         self.goodbye_message = " "
 
+# Bot intents, so events function properly
 intents = discord.Intents.default()
 intents.members = True
 
+# Setting up the client itself
 botdata = BotData()
 client = discord.Client(intents=intents)
 
+#Global variables which alter behavior of the bot
 responses_io = False
 prefix = "="
 
@@ -26,40 +29,6 @@ prefix = "="
 pandabot_words = ["Pandabot", "PandaBot", "pandaBot"]
 bop_words = ["Bop", "Bops"]
 pandabot_responses = ["nya!", "*squeak*", "^ w^", "*nuzzles*"]
-
-# Creates all lowercase and uppercase variations of the words in the respective list
-def create_variations(list1):
-    new_list = []
-    for word in list1:
-        new_list.append(word.upper())
-        new_list.append(word.lower())
-        new_list.append(word)
-    return new_list
-
-
-# Gets a random inspiration quote and sends back to the async
-def get_quote():
-    response = requests.get("https://zenquotes.io/api/random")
-    json_data = json.loads(response.text)
-    quote = json_data[0]["q"] + " -" + json_data[0]["a"]
-    return (quote)
-
-
-# Gets a random red panda picture and sends back to the async
-def get_panda():
-    response = requests.get("https://some-random-api.ml/img/red_panda")
-    json_data = json.loads(response.text)
-    quote = "Here's your panda uwu: " + json_data["link"]
-    return (quote)
-
-
-# Gets a random undertale goat picture and sends back to the async
-def get_goat():
-    response = requests.get("http://0.0.0.0:8081/")
-    json_data = json.loads(response.text)
-    quote = "Here's your goat uwu: " + json_data[0]["link"]
-    return (quote)
-
 
 def set_responses():
     global responses_io
@@ -74,37 +43,6 @@ def set_prefix(new):
     prefix = new
 
     return f"The prefix has been set to {new}, nyaa~"
-
-
-def check_inside_words(responses, message):
-    message_list = []
-    response_list = []
-    marker = 0
-    counter = 0
-    for item in message:
-        message_list.append(item)
-    if len(message_list[0]) > 1:
-        new_list = []
-        for letter in message_list:
-            new_list.append(letter)
-        message_list = new_list
-    print(message_list)
-
-    for i in range(0, len(responses)):
-        response_list = []
-        for item in responses[i]:
-            response_list.append(item)
-        for j in range(0, len(response_list) - 1):
-            if message_list[j] == response_list[j]:
-                print(message_list)
-                print(response_list)
-                print(message_list[j] + " - " + response_list[j])
-                marker = j
-                print(marker)
-            else:
-                marker = 0
-
-    return True
 
 
 @client.event
@@ -158,44 +96,27 @@ async def on_message(message):
 
     # Setting welcome channel
     if msg.startswith(f"{pfx}welcome"):
-        if len(msg_words) == 2:
-          welcome_channel = msg_words[1]
-          for channel in message.guild.channels:
-            if welcome_channel == channel.name:
-              botdata.welcome_channel = channel
-          await message.channel.send(f"Welcome channel has been set to {welcome_channel}")
-        elif len(msg_words) > 2:
-          welcome_channel = msg_words[1]
-          welcome_message = msg_words[2:]
-          welcome = " "
-          botdata.welcome_message = welcome.join(welcome_message)
-          for channel in message.guild.channels:
-            if welcome_channel == channel.name:
-              botdata.welcome_channel = channel
-          await message.channel.send(f"Welcome channel has been set to {welcome_channel} with a message: \"{botdata.welcome_message}\"")
+        welcome_channel, welcome_message = welcome(message, msg, msg_words)
+
+        botdata.welcome_channel = welcome_channel
+        botdata.welcome_message = welcome_message
+
+        if welcome_message != " ":
+          await message.channel.send(f"Welcome channel has been set to {botdata.welcome_channel} with a message: \"{botdata.welcome_message}\"")
         else:
-          await message.channel.send("Please include a welcome channel")
-    
+          await message.channel.send(f"Welcome channel has been set to {botdata.welcome_channel}")
+
     # Setting goodbye channel
     if msg.startswith(f"{pfx}goodbye"):
-        goodbye_message = ""
-        if len(msg_words) == 2:
-          goodbye_channel = msg_words[1]
-          for channel in message.guild.channels:
-            if goodbye_channel == channel.name:
-              botdata.goodbye_channel = channel
-          await message.channel.send(f"Goodbye channel has been set to {goodbye_channel}")
-        elif len(msg_words) > 2:
-          goodbye_channel = msg_words[1]
-          goodbye_message = msg_words[2:]
-          goodbye = " "
-          botdata.goodbye_message = goodbye.join(goodbye_message)
-          for channel in message.guild.channels:
-            if goodbye_channel == channel.name:
-              botdata.goodbye_channel = channel
-          await message.channel.send(f"Goodbye channel has been set to {goodbye_channel} with a message: \"{botdata.goodbye_message}\"")
+        goodbye_channel, goodbye_message = welcome(message, msg, msg_words)
+
+        botdata.goodbye_channel = goodbye_channel
+        botdata.goodbye_message = goodbye_message
+        
+        if goodbye_message != " ":
+          await message.channel.send(f"Goodbye channel has been set to {botdata.goodbye_channel} with a message: \"{botdata.goodbye_message}\"")
         else:
-          await message.channel.send("Please include a goodbye channel")
+          await message.channel.send(f"Goodbye channel has been set to {botdata.goodbye_channel}")
 
     # Responses to user typed words
     # Pandabot words
@@ -210,4 +131,3 @@ async def on_message(message):
 load_dotenv(".env")
 web_server()
 client.run(os.getenv("TOKEN"))
-
