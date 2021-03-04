@@ -75,24 +75,20 @@ async def on_message(message):
 
     # Sending a random inspirational quote
     if msg.startswith(f"{pfx}inspire"):
-        quote = get_quote()
-        await message.channel.send(quote)
+        await message.channel.send(get_quote())
 
     # Sending a random red panda image
     if msg.startswith(f"{pfx}panda"):
-        panda = get_panda()
-        await message.channel.send(panda)
+        await message.channel.send(get_panda())
 
     # Sending a random undertale goat image
     if msg.startswith(f"{pfx}goat"):
-        goat = get_goat()
-        await message.channel.send(goat)
+        await message.channel.send(get_goat())
 
     # Setting prefix
     if msg.startswith(f"{pfx}prefix"):
         if len(msg_words) == 2:
-            pfx = set_prefix(msg_words[1])
-            await message.channel.send(pfx)
+            await message.channel.send(set_prefix(msg_words[1]))
 
     # Setting welcome channel
     if msg.startswith(f"{pfx}welcome"):
@@ -112,7 +108,7 @@ async def on_message(message):
 
         botdata.goodbye_channel = goodbye_channel
         botdata.goodbye_message = goodbye_message
-        
+
         if goodbye_message != " ":
           await message.channel.send(f"Goodbye channel has been set to {botdata.goodbye_channel} with a message: \"{botdata.goodbye_message}\"")
         else:
