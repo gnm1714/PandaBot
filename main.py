@@ -1,10 +1,10 @@
 import discord
 import os
 import random
-from helpers.web_server import web_server
+from pandabot.helpers.web_server import web_server
 from dotenv import load_dotenv
-from helpers.utilities import create_variations, check_inside_words, welcome
-from helpers.api import get_goat, get_panda, get_quote
+from pandabot.helpers.utilities import create_variations, check_inside_words, welcome
+from pandabot.helpers.api import get_goat, get_panda, get_quote
 
 class BotData:
     def __init__(self):
@@ -28,7 +28,7 @@ prefix = "="
 # A mess of lists the bot refers back to
 pandabot_words = ["Pandabot", "PandaBot", "pandaBot"]
 bop_words = ["Bop", "Bops"]
-pandabot_responses = ["nya!", "*squeak*", "^ w^", "*nuzzles*"]
+pandabot_responses = ["nya!", "*squeak*", "^ w^", "Hello!"]
 
 def set_responses():
     global responses_io
@@ -42,7 +42,7 @@ def set_prefix(new):
     global prefix
     prefix = new
 
-    return f"The prefix has been set to {new}, nyaa~"
+    return f"The prefix has been set to {new}!"
 
 
 @client.event
@@ -52,13 +52,13 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-    print(f"Welcome {member}")
+    print(f"Welcome {member}!")
     await botdata.welcome_channel.send(botdata.welcome_message)
 
 
 @client.event
 async def on_member_remove(member):
-    print(f"See ya {member}")
+    print(f"See ya {member}!")
     await botdata.welcome_channel.send(botdata.goodbye_message)
 
 
@@ -82,8 +82,8 @@ async def on_message(message):
         await message.channel.send(get_panda())
 
     # Sending a random undertale goat image
-    if msg.startswith(f"{pfx}goat"):
-        await message.channel.send(get_goat())
+    #if msg.startswith(f"{pfx}goat"):
+    #    await message.channel.send(get_goat())
 
     # Setting prefix
     if msg.startswith(f"{pfx}prefix"):
