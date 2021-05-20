@@ -13,13 +13,13 @@ def get_quote():
 def get_panda():
     response = requests.get("https://some-random-api.ml/img/red_panda")
     json_data = json.loads(response.text)
-    quote = "Here's your panda uwu: " + json_data["link"]
+    quote = "Here's your panda: " + json_data["link"]
     return (quote)
 
 
 # Gets a random undertale goat picture and sends back to the async
-def get_goat():
-    response = requests.get("http://0.0.0.0:8081/")
-    json_data = json.loads(response.text)
-    quote = "Here's your goat uwu: " + json_data[0]["link"]
-    return (quote)
+#def get_goat():
+#    response = requests.get("http://0.0.0.0:8081/")
+#    json_data = json.loads(response.text)
+#    quote = "Here's your goat: " + json_data[0]["link"]
+#    return (quote)
