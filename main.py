@@ -82,10 +82,6 @@ async def on_message(message):
     if msg.startswith(f"{pfx}panda"):
         await message.channel.send(get_panda())
 
-    # Sending a random undertale goat image
-    #if msg.startswith(f"{pfx}goat"):
-    #    await message.channel.send(get_goat())
-
     # Setting prefix
     if msg.startswith(f"{pfx}prefix"):
         if len(msg_words) == 2:

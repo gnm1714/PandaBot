@@ -60,7 +60,7 @@ def welcome(message, msg, msg_words):
         welcome_channel = channel
     #await message.channel.send(f"Welcome channel has been set to {welcome_channel} with a message: \"{botdata.welcome_message}\"")
   else:
-    welcome_channel = "Please include a welcome channel"
+    welcome_channel = "Please include a channel"
     welcome_message = " "
 
   return welcome_channel, welcome_message

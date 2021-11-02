@@ -15,11 +15,3 @@ def get_panda():
     json_data = json.loads(response.text)
     quote = "Here's your panda: " + json_data["link"]
     return (quote)
-
-
-# Gets a random undertale goat picture and sends back to the async
-#def get_goat():
-#    response = requests.get("http://0.0.0.0:8081/")
-#    json_data = json.loads(response.text)
-#    quote = "Here's your goat: " + json_data[0]["link"]
-#    return (quote)
