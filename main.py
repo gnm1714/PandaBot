@@ -3,7 +3,7 @@ import os
 import random
 from pandabot.helpers.web_server import web_server
 from dotenv import load_dotenv
-from pandabot.helpers.utilities import create_variations, check_inside_words, welcome
+from pandabot.helpers.utilities import create_variations, check_inside_words, welcome, rps
 from pandabot.helpers.api import get_panda, get_quote
 
 class BotData:
@@ -125,6 +125,14 @@ async def on_message(message):
     if any(word in msg for word in create_variations(bop_words)):
       if responses_io is True:
         await message.channel.send("Bop!")
+
+    # Small games
+    # Rock, Paper, Scissors
+    if msg.startswith(f"{pfx}rps"):
+      if len(msg_words) == 2:
+        await message.channel.send(rps(msg_words[1]))
+      else:
+        await message.channel.send("Please specify rock, paper, or scissors!")
 
 
 load_dotenv(".env")

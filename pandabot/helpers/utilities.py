@@ -1,7 +1,11 @@
+from random import *
+
 welcome_message = " "
 goodbye_message = " "
 welcome_channel = None
-goodbye_channel = None 
+goodbye_channel = None
+
+rps_words = ["Rock", "Paper", "Scissors"]
 
 # Creates all lowercase and uppercase variations of the words in the respective list
 def create_variations(list1):
@@ -64,3 +68,33 @@ def welcome(message, msg, msg_words):
     welcome_message = " "
 
   return welcome_channel, welcome_message
+def rps(throw):
+
+  bot = rps_words[randint(0, 2)]
+  if throw == "rock" or throw == "ROCK":
+    throw = "Rock"
+  elif throw == "paper" or throw == "PAPER":
+    throw = "Paper" 
+  elif throw == "scissors" or throw == "SCISSORS":
+    throw = "Scissors"
+
+  if not any(word in throw for word in create_variations(rps_words)):
+    return "Please specify rock, paper, or scissors!"
+  else:
+    if throw == bot:
+      return "You tie!!"
+    elif throw == "Rock":
+      if bot == "Paper":
+        return "You got covered by paper! Try again..."
+      else:
+        return "You banged scissors! Good job!"
+    elif throw == "Paper":
+      if bot == "Scissors":
+        return "You got cut by scissors! Try again..."
+      else:
+        return "You covered rock! Good job!"
+    else:
+      if bot == "Rock":
+        return "You got banged by rock! Try again..."
+      else:
+        return "You cut paper! Good job!"
