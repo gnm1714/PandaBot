@@ -1,4 +1,5 @@
-from random import *
+import random
+import re
 
 welcome_message = " "
 goodbye_message = " "
@@ -70,31 +71,25 @@ def welcome(message, msg, msg_words):
   return welcome_channel, welcome_message
 def rps(throw):
 
-  bot = rps_words[randint(0, 2)]
-  if throw == "rock" or throw == "ROCK":
-    throw = "Rock"
-  elif throw == "paper" or throw == "PAPER":
-    throw = "Paper" 
-  elif throw == "scissors" or throw == "SCISSORS":
-    throw = "Scissors"
+  bot = rps_words[random.randint(0, 2)]
+  bot_words = create_variations(bot)
 
-  if not any(word in throw for word in create_variations(rps_words)):
-    return "Please specify rock, paper, or scissors!"
-  else:
-    if throw == bot:
-      return "You tie!!"
-    elif throw == "Rock":
-      if bot == "Paper":
-        return "You got covered by paper! Try again..."
-      else:
-        return "You banged scissors! Good job!"
-    elif throw == "Paper":
-      if bot == "Scissors":
-        return "You got cut by scissors! Try again..."
-      else:
-        return "You covered rock! Good job!"
+  if re.search(bot_words[0], throw) or re.search(bot_words[1], throw) or re.search(bot_words[2], throw):
+    return "You tie!!"
+  elif re.search(r"\b[rR][oO][cC][kK]\b", throw):
+    if bot == "Paper":
+      return "You got covered by paper! Try again..."
     else:
-      if bot == "Rock":
-        return "You got banged by rock! Try again..."
-      else:
-        return "You cut paper! Good job!"
+      return "You banged scissors! Good job!"
+  elif re.search(r"\b[pP][aA][pP][eE][rR]\b", throw):
+    if bot == "Scissors":
+      return "You got cut by scissors! Try again..."
+    else:
+      return "You covered rock! Good job!"
+  elif re.search(r"\b[sS][cC][iI][sS][sS][oO][rR][sS]\b", throw):
+    if bot == "Rock":
+      return "You got banged by rock! Try again..."
+    else:
+      return "You cut paper! Good job!"
+  else:
+    return "Please specify rock, paper, or scissors!"
