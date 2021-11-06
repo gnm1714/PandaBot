@@ -1,5 +1,6 @@
 import random
 import re
+import discord
 
 welcome_message = " "
 goodbye_message = " "
@@ -69,27 +70,35 @@ def welcome(message, msg, msg_words):
     welcome_message = " "
 
   return welcome_channel, welcome_message
+
+def create_embed(titl, desc, img):
+  embd = discord.Embed(title=titl, description=desc, colour=0xF7992E, type="rich").set_image(url=img)
+  embd.set_footer(text="Pandabot v1.1")
+  embd.set_author(name="Pandabot", url="https://github.com/gnm1714/PandaBot",icon_url="https://cdn.discordapp.com/avatars/788899598357889025/6597ed3783aa69710fe821d7a61b0876.png?size=256")
+
+  return embd
+
 def rps(throw):
 
   bot = rps_words[random.randint(0, 2)]
   bot_words = create_variations(bot)
 
   if re.search(bot_words[0], throw) or re.search(bot_words[1], throw) or re.search(bot_words[2], throw):
-    return "You tie!!"
+    return create_embed("Rock, Paper, Scissors!", "You tie! Try again...", "https://pbs.twimg.com/media/DGe-0rFXsAIJA70.jpg")
   elif re.search(r"\b[rR][oO][cC][kK]\b", throw):
     if bot == "Paper":
-      return "You got covered by paper! Try again..."
+      return create_embed("Rock, Paper, Scissors!", "You got covered by paper! Try again...", "https://www.myconfinedspace.com/wp-content/uploads/2017/07/angry-red-panda-720x450.jpg")
     else:
-      return "You banged scissors! Good job!"
+      return create_embed("Rock, Paper, Scissors!", "You banged scissors! Good job!", "https://memegenerator.net/img/images/15266018/excited-red-panda.jpg")
   elif re.search(r"\b[pP][aA][pP][eE][rR]\b", throw):
     if bot == "Scissors":
-      return "You got cut by scissors! Try again..."
+      return create_embed("Rock, Paper, Scissors!", "You got cut by scissors! Try again...", "https://www.myconfinedspace.com/wp-content/uploads/2017/07/angry-red-panda-720x450.jpg")
     else:
-      return "You covered rock! Good job!"
+      return create_embed("Rock, Paper, Scissors!", "You covered rock! Good job!", "https://memegenerator.net/img/images/15266018/excited-red-panda.jpg")
   elif re.search(r"\b[sS][cC][iI][sS][sS][oO][rR][sS]\b", throw):
     if bot == "Rock":
-      return "You got banged by rock! Try again..."
+      return create_embed("Rock, Paper, Scissors!", "You got banged by rock! Try again...", "https://www.myconfinedspace.com/wp-content/uploads/2017/07/angry-red-panda-720x450.jpg")
     else:
-      return "You cut paper! Good job!"
+      return create_embed("Rock, Paper, Scissors!", "You cut paper! Good job!", "https://memegenerator.net/img/images/15266018/excited-red-panda.jpg")
   else:
-    return "Please specify rock, paper, or scissors!"
+    return create_embed("Rock, Paper, Scissors!", "Please specify rock, paper, or scissors!", "https://i.pinimg.com/originals/63/89/82/638982bc7e19742c07b7e9868d3d2bf0.png")

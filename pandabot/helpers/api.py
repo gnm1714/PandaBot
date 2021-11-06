@@ -13,5 +13,5 @@ def get_quote():
 def get_panda():
     response = requests.get("https://some-random-api.ml/img/red_panda")
     json_data = json.loads(response.text)
-    quote = "Here's your panda: " + json_data["link"]
+    quote = json_data["link"]
     return (quote)

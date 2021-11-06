@@ -3,7 +3,7 @@ import os
 import random
 from pandabot.helpers.web_server import web_server
 from dotenv import load_dotenv
-from pandabot.helpers.utilities import create_variations, check_inside_words, welcome, rps
+from pandabot.helpers.utilities import create_variations, check_inside_words, welcome, rps, create_embed
 from pandabot.helpers.api import get_panda, get_quote
 
 class BotData:
@@ -76,11 +76,13 @@ async def on_message(message):
 
     # Sending a random inspirational quote
     if msg.startswith(f"{pfx}inspire"):
-        await message.channel.send(get_quote())
+      embd = create_embed("Here's your inspirational quote!", get_quote(), "")
+      await message.channel.send(embed=embd)
 
     # Sending a random red panda image
     if msg.startswith(f"{pfx}panda"):
-        await message.channel.send(get_panda())
+      embd = create_embed("Here's your panda picture!", "", get_panda())
+      await message.channel.send(embed=embd)
 
     # Setting prefix
     if msg.startswith(f"{pfx}prefix"):
@@ -130,9 +132,10 @@ async def on_message(message):
     # Rock, Paper, Scissors
     if msg.startswith(f"{pfx}rps"):
       if len(msg_words) == 2:
-        await message.channel.send(rps(msg_words[1]))
+        embd = rps(msg_words[1])
+        await message.channel.send(embed=embd)
       else:
-        await message.channel.send("Please specify rock, paper, or scissors!")
+        await message.channel.send(embed=create_embed("Rock, Paper, Scissors!", "Please specify rock, paper, or scissors!", "https://i.pinimg.com/originals/63/89/82/638982bc7e19742c07b7e9868d3d2bf0.png"))
 
 
 load_dotenv(".env")
