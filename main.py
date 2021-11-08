@@ -1,9 +1,11 @@
 import discord
+from discord.ext import commands
 import os
 import random
+from pandabot.helpers.text_adv import GameCog
 from pandabot.helpers.web_server import web_server
 from dotenv import load_dotenv
-from pandabot.helpers.utilities import create_variations, check_inside_words, welcome, rps, create_embed
+from pandabot.helpers.utilities import create_variations, welcome, rps, create_embed
 from pandabot.helpers.api import get_panda, get_quote
 
 class BotData:
@@ -13,17 +15,20 @@ class BotData:
         self.welcome_message = " "
         self.goodbye_message = " "
 
+
+#Global variables which alter behavior of the bot
+responses_io = True
+prefix = "="
+
 # Bot intents, so events function properly
 intents = discord.Intents.default()
 intents.members = True
 
 # Setting up the client itself
 botdata = BotData()
-client = discord.Client(intents=intents)
+client = commands.Bot(command_prefix=prefix, intents=intents)
 
-#Global variables which alter behavior of the bot
-responses_io = True
-prefix = "="
+initial_extensions = ['pandabot.helpers.text_adv']
 
 # A mess of lists the bot refers back to
 pandabot_words = ["Pandabot", "PandaBot", "pandaBot"]
@@ -137,7 +142,13 @@ async def on_message(message):
       else:
         await message.channel.send(embed=create_embed("Rock, Paper, Scissors!", "Please specify rock, paper, or scissors!", "https://i.pinimg.com/originals/63/89/82/638982bc7e19742c07b7e9868d3d2bf0.png"))
 
+    if msg.startswith(f"{pfx}game"):
+      await GameCog.start_game(message.author, message)
 
+if __name__ == "__main__":
+  for extension in initial_extensions:
+          client.load_extension(extension)
+          
 load_dotenv(".env")
 web_server()
 client.run(os.getenv("TOKEN"))

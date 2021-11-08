@@ -73,7 +73,7 @@ def welcome(message, msg, msg_words):
 
 def create_embed(titl, desc, img):
   embd = discord.Embed(title=titl, description=desc, colour=0xF7992E, type="rich").set_image(url=img)
-  embd.set_footer(text="Pandabot v1.1")
+  embd.set_footer(text="Pandabot v2.0")
   embd.set_author(name="Pandabot", url="https://github.com/gnm1714/PandaBot",icon_url="https://cdn.discordapp.com/avatars/788899598357889025/6597ed3783aa69710fe821d7a61b0876.png?size=256")
 
   return embd
@@ -85,7 +85,7 @@ def rps(throw):
 
   if re.search(bot_words[0], throw) or re.search(bot_words[1], throw) or re.search(bot_words[2], throw):
     return create_embed("Rock, Paper, Scissors!", "You tie! Try again...", "https://pbs.twimg.com/media/DGe-0rFXsAIJA70.jpg")
-  elif re.search(r"\b[rR][oO][cC][kK]\b", throw):
+  elif re.search(r"\b[r][o][c][k]\b", throw, flags=re.I):
     if bot == "Paper":
       return create_embed("Rock, Paper, Scissors!", "You got covered by paper! Try again...", "https://www.myconfinedspace.com/wp-content/uploads/2017/07/angry-red-panda-720x450.jpg")
     else:
