@@ -52,7 +52,7 @@ def welcome(message, msg, msg_words):
 
 def create_embed(titl, desc, img):
   embd = discord.Embed(title=titl, description=desc, colour=0xF7992E, type="rich").set_image(url=img)
-  embd.set_footer(text="Pandabot v2.0")
+  embd.set_footer(text="Pandabot v2.1")
   embd.set_author(name="Pandabot", url="https://github.com/gnm1714/PandaBot",icon_url="https://cdn.discordapp.com/avatars/788899598357889025/6597ed3783aa69710fe821d7a61b0876.png?size=256")
   return embd
 
