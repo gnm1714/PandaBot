@@ -80,44 +80,49 @@ async def on_message(message):
         msg_words = msg.split()
 
     # Sending a random inspirational quote
-    if msg.startswith(f"{pfx}inspire"):
+    if msg == f"{pfx}inspire":
       embd = create_embed("Here's your inspirational quote!", get_quote(), "")
       await message.channel.send(embed=embd)
 
     # Sending a random red panda image
-    if msg.startswith(f"{pfx}panda"):
+    if msg == f"{pfx}panda":
       embd = create_embed("Here's your panda picture!", "", get_panda())
       await message.channel.send(embed=embd)
 
     # Setting prefix
-    if msg.startswith(f"{pfx}prefix"):
+    if msg == f"{pfx}prefix":
         if len(msg_words) == 2:
             await message.channel.send(set_prefix(msg_words[1]))
 
     # Turn responses on and off
-    if msg.startswith(f"{pfx}responses"):
+    if msg == f"{pfx}responses":
         await message.channel.send(set_responses())
 
     # Setting welcome channel
-    if msg.startswith(f"{pfx}welcome"):
+    if msg.startswith(f"{pfx}welcome") and message.author.guild_permissions.administrator:
         welcome_channel, welcome_message = welcome(message, msg, msg_words)
 
         botdata.welcome_channel = welcome_channel
         botdata.welcome_message = welcome_message
 
-        if welcome_message != " ":
+
+        if welcome_channel == " ":
+          await message.channel.send("Please include a channel!")
+        elif welcome_message != " ":
           await message.channel.send(f"Welcome channel has been set to {botdata.welcome_channel} with a message: \"{botdata.welcome_message}\"")
         else:
           await message.channel.send(f"Welcome channel has been set to {botdata.welcome_channel}")
 
     # Setting goodbye channel
-    if msg.startswith(f"{pfx}goodbye"):
+    if msg.startswith(f"{pfx}goodbye") and message.author.guild_permissions.administrator:
         goodbye_channel, goodbye_message = welcome(message, msg, msg_words)
 
         botdata.goodbye_channel = goodbye_channel
         botdata.goodbye_message = goodbye_message
 
-        if goodbye_message != " ":
+        if goodbye_channel == " ":
+          await message.channel.send("Please include a channel!")
+        elif goodbye_message != " ":
           await message.channel.send(f"Goodbye channel has been set to {botdata.goodbye_channel} with a message: \"{botdata.goodbye_message}\"")
         else:
           await message.channel.send(f"Goodbye channel has been set to {botdata.goodbye_channel}")
@@ -126,7 +131,11 @@ async def on_message(message):
     # Pandabot words
     if any(word in msg for word in create_variations(pandabot_words)):
       if responses_io is True:
-        await message.channel.send(random.choice(pandabot_responses))
+        r = random.random()
+        if r <= 0.98:
+          await message.channel.send(random.choice(pandabot_responses))
+        else:
+          await message.channel.send("**I am really fucking gay**")
 
     # BOP words
     if any(word in msg for word in create_variations(bop_words)):
@@ -142,7 +151,7 @@ async def on_message(message):
       else:
         await message.channel.send(embed=create_embed("Rock, Paper, Scissors!", "Please specify rock, paper, or scissors!", "https://i.pinimg.com/originals/63/89/82/638982bc7e19742c07b7e9868d3d2bf0.png"))
 
-    if msg.startswith(f"{pfx}game"):
+    if msg == f"{pfx}game":
       await GameCog.start_game(message.author, message)
 
 if __name__ == "__main__":

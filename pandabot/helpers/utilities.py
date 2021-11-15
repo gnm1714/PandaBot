@@ -66,7 +66,7 @@ def welcome(message, msg, msg_words):
         welcome_channel = channel
     #await message.channel.send(f"Welcome channel has been set to {welcome_channel} with a message: \"{botdata.welcome_message}\"")
   else:
-    welcome_channel = "Please include a channel"
+    welcome_channel = " "
     welcome_message = " "
 
   return welcome_channel, welcome_message
@@ -81,23 +81,26 @@ def create_embed(titl, desc, img):
 def rps(throw):
 
   bot = rps_words[random.randint(0, 2)]
-  bot_words = create_variations(bot)
 
-  if re.search(bot_words[0], throw) or re.search(bot_words[1], throw) or re.search(bot_words[2], throw):
-    return create_embed("Rock, Paper, Scissors!", "You tie! Try again...", "https://pbs.twimg.com/media/DGe-0rFXsAIJA70.jpg")
-  elif re.search(r"\b[r][o][c][k]\b", throw, flags=re.I):
+  if re.search(r"\b[rR][oO][cC][kK]\b", throw):
     if bot == "Paper":
       return create_embed("Rock, Paper, Scissors!", "You got covered by paper! Try again...", "https://www.myconfinedspace.com/wp-content/uploads/2017/07/angry-red-panda-720x450.jpg")
+    elif bot == "Rock":
+      return create_embed("Rock, Paper, Scissors!", "You tie! Try again...", "https://pbs.twimg.com/media/DGe-0rFXsAIJA70.jpg")
     else:
       return create_embed("Rock, Paper, Scissors!", "You banged scissors! Good job!", "https://memegenerator.net/img/images/15266018/excited-red-panda.jpg")
   elif re.search(r"\b[pP][aA][pP][eE][rR]\b", throw):
     if bot == "Scissors":
       return create_embed("Rock, Paper, Scissors!", "You got cut by scissors! Try again...", "https://www.myconfinedspace.com/wp-content/uploads/2017/07/angry-red-panda-720x450.jpg")
+    elif bot == "Paper":
+      return create_embed("Rock, Paper, Scissors!", "You tie! Try again...", "https://pbs.twimg.com/media/DGe-0rFXsAIJA70.jpg")
     else:
       return create_embed("Rock, Paper, Scissors!", "You covered rock! Good job!", "https://memegenerator.net/img/images/15266018/excited-red-panda.jpg")
   elif re.search(r"\b[sS][cC][iI][sS][sS][oO][rR][sS]\b", throw):
     if bot == "Rock":
       return create_embed("Rock, Paper, Scissors!", "You got banged by rock! Try again...", "https://www.myconfinedspace.com/wp-content/uploads/2017/07/angry-red-panda-720x450.jpg")
+    elif bot == "Scissors":
+      return create_embed("Rock, Paper, Scissors!", "You tie! Try again...", "https://pbs.twimg.com/media/DGe-0rFXsAIJA70.jpg")
     else:
       return create_embed("Rock, Paper, Scissors!", "You cut paper! Good job!", "https://memegenerator.net/img/images/15266018/excited-red-panda.jpg")
   else:
