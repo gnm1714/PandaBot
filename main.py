@@ -6,7 +6,7 @@ from pandabot.helpers.text_adv import GameCog
 from pandabot.helpers.web_server import web_server
 from dotenv import load_dotenv
 from pandabot.helpers.utilities import create_variations, welcome, rps, create_embed
-from pandabot.helpers.api import get_panda, get_quote
+from pandabot.helpers.api import get_panda, get_quote, get_cat
 
 class BotData:
     def __init__(self):
@@ -87,6 +87,11 @@ async def on_message(message):
     # Sending a random red panda image
     if msg == f"{pfx}panda":
       embd = create_embed("Here's your panda picture!", "", get_panda())
+      await message.channel.send(embed=embd)
+
+      # Sending a random red panda image
+    if msg == f"{pfx}kitty":
+      embd = create_embed("Here's your kitty picture!", "", get_cat())
       await message.channel.send(embed=embd)
 
     # Setting prefix
