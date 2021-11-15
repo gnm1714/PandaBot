@@ -90,13 +90,19 @@ async def on_message(message):
       await message.channel.send(embed=embd)
 
     # Setting prefix
-    if msg == f"{pfx}prefix":
+    if msg.startswith(f"{pfx}prefix"):
         if len(msg_words) == 2:
             await message.channel.send(set_prefix(msg_words[1]))
 
     # Turn responses on and off
     if msg == f"{pfx}responses":
         await message.channel.send(set_responses())
+
+
+    # Post pumpkin!!
+    if msg == f"{pfx}pumpkin":
+        await message.channel.send(embed=create_embed("Grrrrr, evil pumpkins....", "", "https://cdn.discordapp.com/attachments/802421159878328350/909872775278231562/7BYDYUcEvrWaZiUX-1.gif"))
+    
 
     # Setting welcome channel
     if msg.startswith(f"{pfx}welcome") and message.author.guild_permissions.administrator:
