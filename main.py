@@ -5,7 +5,7 @@ import random
 from pandabot.helpers.text_adv import GameCog
 from pandabot.helpers.web_server import web_server
 from dotenv import load_dotenv
-from pandabot.helpers.utilities import create_variations, welcome, rps, create_embed
+from pandabot.helpers.utilities import check_inside_words, create_variations, welcome, rps, create_embed
 from pandabot.helpers.api import get_panda, get_quote, get_cat
 
 class BotData:
@@ -116,7 +116,6 @@ async def on_message(message):
         botdata.welcome_channel = welcome_channel
         botdata.welcome_message = welcome_message
 
-
         if welcome_channel == " ":
           await message.channel.send("Please include a channel!")
         elif welcome_message != " ":
@@ -140,7 +139,7 @@ async def on_message(message):
 
     # Responses to user typed words
     # Pandabot words
-    if any(word in msg for word in create_variations(pandabot_words)):
+    if check_inside_words(create_variations(pandabot_words), msg):
       if responses_io is True:
         r = random.random()
         if r <= 0.98:
@@ -149,7 +148,7 @@ async def on_message(message):
           await message.channel.send("**I am really fucking gay**")
 
     # BOP words
-    if any(word in msg for word in create_variations(bop_words)):
+    if check_inside_words(create_variations(bop_words), msg):
       if responses_io is True:
         await message.channel.send("Bop!")
 

@@ -19,35 +19,14 @@ def create_variations(list1):
     return new_list
     
 
-def check_inside_words(responses, message):
-    message_list = []
-    response_list = []
-    marker = 0
-    counter = 0
-    for item in message:
-        message_list.append(item)
-    if len(message_list[0]) > 1:
-        new_list = []
-        for letter in message_list:
-            new_list.append(letter)
-        message_list = new_list
-    print(message_list)
+def check_inside_words(words, message):
+    message_words = message.split()
+    for i in message_words:
+      for j in words:
+        if i == j:
+          return True
+    return False
 
-    for i in range(0, len(responses)):
-        response_list = []
-        for item in responses[i]:
-            response_list.append(item)
-        for j in range(0, len(response_list) - 1):
-            if message_list[j] == response_list[j]:
-                print(message_list)
-                print(response_list)
-                print(message_list[j] + " - " + response_list[j])
-                marker = j
-                print(marker)
-            else:
-                marker = 0
-
-    return True
 
 def welcome(message, msg, msg_words):
   if len(msg_words) == 2:
@@ -68,18 +47,17 @@ def welcome(message, msg, msg_words):
   else:
     welcome_channel = " "
     welcome_message = " "
-
   return welcome_channel, welcome_message
+
 
 def create_embed(titl, desc, img):
   embd = discord.Embed(title=titl, description=desc, colour=0xF7992E, type="rich").set_image(url=img)
   embd.set_footer(text="Pandabot v2.0")
   embd.set_author(name="Pandabot", url="https://github.com/gnm1714/PandaBot",icon_url="https://cdn.discordapp.com/avatars/788899598357889025/6597ed3783aa69710fe821d7a61b0876.png?size=256")
-
   return embd
 
-def rps(throw):
 
+def rps(throw):
   bot = rps_words[random.randint(0, 2)]
 
   if re.search(r"\b[rR][oO][cC][kK]\b", throw):
