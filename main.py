@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import os
 import random
+import re
 from pandabot.helpers.text_adv import GameCog
 from pandabot.helpers.web_server import web_server
 from dotenv import load_dotenv
@@ -59,13 +60,13 @@ async def on_ready():
 @client.event
 async def on_member_join(member):
     print(f"Welcome {member}!")
-    await botdata.welcome_channel.send(botdata.welcome_message)
+    await botdata.welcome_channel.send(re.sub("@user", member.mention,botdata.welcome_message))
 
 
 @client.event
 async def on_member_remove(member):
     print(f"See ya {member}!")
-    await botdata.welcome_channel.send(botdata.goodbye_message)
+    await botdata.welcome_channel.send(re.sub("@user", member.mention,botdata.goodbye_message))
 
 
 @client.event
@@ -89,7 +90,7 @@ async def on_message(message):
       embd = create_embed("Here's your panda picture!", "", get_panda())
       await message.channel.send(embed=embd)
 
-      # Sending a random red panda image
+    # Sending a random cat image
     if msg == f"{pfx}kitty":
       embd = create_embed("Here's your kitty picture!", "", get_cat())
       await message.channel.send(embed=embd)
@@ -145,7 +146,7 @@ async def on_message(message):
         if r <= 0.98:
           await message.channel.send(random.choice(pandabot_responses))
         else:
-          await message.channel.send("**I am really fucking gay**")
+          await message.channel.send("**I am really freaking gay**")
 
     # BOP words
     if check_inside_words(create_variations(bop_words), msg):
