@@ -1,11 +1,9 @@
 import os
 import random
 import re
-
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
-
 from pandabot.helpers.api import get_cat, get_panda, get_quote
 from pandabot.helpers.text_adv import GameCog
 from pandabot.helpers.utilities import (
