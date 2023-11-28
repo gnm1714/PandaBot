@@ -11,21 +11,21 @@ rps_words = ["Rock", "Paper", "Scissors"]
 
 # Creates all lowercase and uppercase variations of the words in the respective list
 def create_variations(list1):
-    new_list = []
-    for word in list1:
-        new_list.append(word.upper())
-        new_list.append(word.lower())
-        new_list.append(word)
-    return new_list
+  new_list = []
+  for word in list1:
+    new_list.append(word.upper())
+    new_list.append(word.lower())
+    new_list.append(word)
+  return new_list
     
 
 def check_inside_words(words, message):
-    message_words = message.split()
-    for i in message_words:
-      for j in words:
-        if i == j:
-          return True
-    return False
+  message_words = message.split()
+  for i in message_words:
+    for j in words:
+      if i == j:
+        return True
+  return False
 
 
 def welcome(message, msg, msg_words):

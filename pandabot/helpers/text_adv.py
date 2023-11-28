@@ -7,7 +7,7 @@ from pandabot.helpers.utilities import create_embed
 class GameCog(commands.Cog):
 
   def __init__(self, client):
-        self.client = client
+    self.client = client
 
   def save_player(player, items):
     with open("savefile.txt", "a") as f:
@@ -45,4 +45,4 @@ class GameCog(commands.Cog):
         await reaction.message.channel.send(embed=embd)
 
 def setup(client):
-    client.add_cog(GameCog(client))
+  client.add_cog(GameCog(client))
